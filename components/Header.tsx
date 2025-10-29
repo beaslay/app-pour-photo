@@ -14,7 +14,7 @@ export const Header: React.FC = () => {
       <div className="max-w-7xl mx-auto flex items-center justify-between">
         <div className="flex items-center gap-3">
           <SparklesIcon className="w-8 h-8 text-indigo-400" />
-          <h1 className="text-xl md:text-2xl font-bold text-gray-100 tracking-tight">AI Photo Stylist</h1>
+          <h1 className="text-xl md:text-2xl font-bold text-gray-100 tracking-tight">Styliste Photo IA</h1>
         </div>
       </div>
     </header>

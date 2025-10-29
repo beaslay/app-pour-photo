@@ -1,6 +1,6 @@
 
 import { GoogleGenAI, Modality } from "@google/genai";
-import { type EditImageRequest, type FormDataState } from '../types';
+import { type StylistEditImageRequest, type TextEditImageRequest, type FormDataState } from '../types';
 
 if (!process.env.API_KEY) {
   throw new Error("API_KEY environment variable is not set.");
@@ -51,8 +51,7 @@ const createMasterPrompt = (formData: FormDataState): string => {
   `.trim();
 };
 
-
-export const editImageWithPrompt = async (request: EditImageRequest): Promise<string | null> => {
+export const runImageStylist = async (request: StylistEditImageRequest): Promise<string | null> => {
   const { referenceImage, maskImage, formData } = request;
 
   const textPrompt = createMasterPrompt(formData);
@@ -76,6 +75,40 @@ export const editImageWithPrompt = async (request: EditImageRequest): Promise<st
   }
 
   parts.push({ text: textPrompt });
+
+  try {
+    const response = await ai.models.generateContent({
+      model: 'gemini-2.5-flash-image',
+      contents: { parts },
+      config: {
+        responseModalities: [Modality.IMAGE],
+      },
+    });
+
+    for (const part of response.candidates[0].content.parts) {
+      if (part.inlineData) {
+        return part.inlineData.data;
+      }
+    }
+    return null;
+  } catch (error) {
+    console.error("Error calling Gemini API:", error);
+    throw new Error("Failed to communicate with the Gemini API. Please check the console for details.");
+  }
+};
+
+export const runImageEditor = async (request: TextEditImageRequest): Promise<string | null> => {
+  const { referenceImage, prompt } = request;
+
+  const parts: any[] = [
+    {
+      inlineData: {
+        data: referenceImage.base64,
+        mimeType: referenceImage.file.type,
+      },
+    },
+    { text: prompt },
+  ];
 
   try {
     const response = await ai.models.generateContent({

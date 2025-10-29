@@ -15,8 +15,13 @@ export interface ImageFile {
   base64: string;
 }
 
-export interface EditImageRequest {
+export interface StylistEditImageRequest {
   referenceImage: ImageFile;
   maskImage: ImageFile | null;
   formData: FormDataState;
+}
+
+export interface TextEditImageRequest {
+  referenceImage: ImageFile;
+  prompt: string;
 }

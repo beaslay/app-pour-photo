@@ -3,8 +3,6 @@ import React, { useState, useCallback } from 'react';
 import { ControlPanel } from './components/ControlPanel';
 import { DisplayPanel } from './components/DisplayPanel';
 import { Header } from './components/Header';
-import { type EditImageRequest } from './types';
-import { editImageWithPrompt } from './services/geminiService';
 
 const App: React.FC = () => {
   const [generatedImage, setGeneratedImage] = useState<string | null>(null);
@@ -12,14 +10,17 @@ const App: React.FC = () => {
   const [error, setError] = useState<string | null>(null);
   const [originalImage, setOriginalImage] = useState<string | null>(null);
 
-  const handleGenerate = useCallback(async (request: EditImageRequest) => {
+  const handleGenerate = useCallback(async (
+    generateFn: () => Promise<string | null>,
+    originalImageBase64: string,
+  ) => {
     setIsLoading(true);
     setError(null);
     setGeneratedImage(null);
-    setOriginalImage(request.referenceImage.base64);
+    setOriginalImage(originalImageBase64);
 
     try {
-      const result = await editImageWithPrompt(request);
+      const result = await generateFn();
       if (result) {
         setGeneratedImage(`data:image/png;base64,${result}`);
       } else {

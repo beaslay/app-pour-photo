@@ -32,7 +32,7 @@ export const ImageUploader: React.FC<ImageUploaderProps> = ({ label, onImageUplo
         setPreview(URL.createObjectURL(file));
         onImageUpload({ file, base64 });
       } catch (error) {
-        console.error('Error converting file to base64:', error);
+        console.error('Erreur lors de la conversion du fichier en base64:', error);
         onImageUpload(null);
       }
     }
@@ -66,11 +66,11 @@ export const ImageUploader: React.FC<ImageUploaderProps> = ({ label, onImageUplo
         />
         {preview ? (
           <>
-            <img src={preview} alt="Preview" className="w-full h-full object-contain rounded-md p-1" />
+            <img src={preview} alt="Aperçu" className="w-full h-full object-contain rounded-md p-1" />
             <button
               onClick={(e) => { e.stopPropagation(); handleClear(); }}
               className="absolute top-2 right-2 p-1.5 bg-gray-900/70 text-gray-300 rounded-full opacity-0 group-hover:opacity-100 hover:bg-red-500/80 hover:text-white transition-all"
-              title="Remove image"
+              title="Supprimer l'image"
             >
               <TrashIcon className="w-5 h-5" />
             </button>
@@ -78,7 +78,7 @@ export const ImageUploader: React.FC<ImageUploaderProps> = ({ label, onImageUplo
         ) : (
           <div className="text-center text-gray-500">
             <UploadIcon className="mx-auto h-10 w-10" />
-            <p className="mt-2 text-sm">Click to upload an image</p>
+            <p className="mt-2 text-sm">Cliquez pour téléverser une image</p>
           </div>
         )}
       </div>
