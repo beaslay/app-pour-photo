@@ -1,0 +1,5 @@
+{
+  "name": "AI Photo Stylist",
+  "description": "An application that uses AI to modify the clothing and background of a photo while preserving the subject's face, morphology, pose, and lighting. Users can upload a reference photo, optionally provide a mask, and describe the desired changes through a detailed form.",
+  "requestFramePermissions": []
+}
